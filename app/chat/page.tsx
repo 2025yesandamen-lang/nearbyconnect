@@ -1,14 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import ChatWindow from "@/components/ChatWindow";
+import ChatBox from "../components/chat/ChatBox";
 
 export default function ChatPage() {
   const [roomId] = useState("demo-room");
 
   return (
-    <div style={{ display: "flex", height: "100vh" }}>
-      <ChatWindow roomId={roomId} />
+    <div>
+      <h1>Room: {roomId}</h1>
+      <ChatBox />
     </div>
   );
 }

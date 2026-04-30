@@ -20,4 +20,4 @@ main()
   .catch(console.error)
   .finally(async () => {
     await prisma.$disconnect();
-  });npx ts-node scripts/test-db.ts
+  });

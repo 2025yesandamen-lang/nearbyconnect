@@ -1,45 +1,53 @@
-import Chat from "../../components/Chat";
 "use client";
 
 import { useEffect, useState } from "react";
-import { io } from "socket.io-client";
+import ChatWindow from "./ChatWindow";
 
-let socket: any;
+type User = {
+  id: string;
+  name?: string;
+};
 
-export default function Chat() {
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState<string[]>([]);
+export default function Chat({ currentUser }: { currentUser: User }) {
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
-    fetch("/api/socket");
-    socket = io();
-
-    socket.on("receiveMessage", (msg: string) => {
-      setMessages((prev) => [...prev, msg]);
-    });
+    fetch("/api/users")
+      .then((res) => res.json())
+      .then(setUsers);
   }, []);
 
-  const sendMessage = () => {
-    socket.emit("sendMessage", message);
-    setMessages((prev) => [...prev, message]);
-    setMessage("");
-  };
-
   return (
-    <div>
-      <h2>Chat</h2>
-
-      <div>
-        {messages.map((m, i) => (
-          <p key={i}>{m}</p>
+    <div style={{ display: "flex", height: "100vh" }}>
+      {/* USER LIST */}
+      <div style={{ width: "30%", borderRight: "1px solid #ddd" }}>
+        {users.map((u) => (
+          <div
+            key={u.id}
+            onClick={() => setSelectedUser(u)}
+            style={{
+              padding: 10,
+              cursor: "pointer",
+              background: selectedUser?.id === u.id ? "#eee" : "transparent",
+            }}
+          >
+            {u.name || "Unknown User"}
+          </div>
         ))}
       </div>
 
-      <input
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-      />
-      <button onClick={sendMessage}>Send</button>
+      {/* CHAT WINDOW */}
+      <div style={{ flex: 1 }}>
+        {selectedUser ? (
+          <ChatWindow
+            currentUser={currentUser}
+            selectedUser={selectedUser}
+          />
+        ) : (
+          <div style={{ padding: 20 }}>Select a user to start chatting</div>
+        )}
+      </div>
     </div>
   );
 }

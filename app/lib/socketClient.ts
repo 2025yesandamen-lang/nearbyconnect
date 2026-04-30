@@ -1,4 +1,3 @@
 import { io } from "socket.io-client";
-import { ENV } from "@/config/env";
 
-export const socket = io(ENV.SOCKET_URL);
+export const socket = io("http://localhost:3000");

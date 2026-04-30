@@ -7,20 +7,9 @@ export default function Dashboard() {
 
   useEffect(() => {
     fetch("/api/analytics")
-      .then((res) => res.json())
+      .then((r) => r.json())
       .then(setStats);
   }, []);
 
-  return (
-    <div style={{ padding: 20 }}>
-      <h1>Startup Dashboard</h1>
-
-      <div>
-        <p>Users: {stats.users}</p>
-        <p>Matches: {stats.matches}</p>
-        <p>Chats: {stats.chats}</p>
-        <p>Revenue: ${stats.revenue}</p>
-      </div>
-    </div>
-  );
+  return <div>Dashboard</div>;
 }
