@@ -1,19 +1,31 @@
-export function calculateMatchScore(userA: any, userB: any) {
-  let score = 0;
+export interface MatchScoreInput {
+  distance: number;
+  ageGap: number;
+  commonInterests: number;
+  responseRate: number;
+}
 
-  // distance factor
-  const distance = Math.abs(
-    (userA.latitude || 0) - (userB.latitude || 0)
-  );
+export function calculateMatchScore(input: MatchScoreInput): number {
+  const {
+    distance,
+    ageGap,
+    commonInterests,
+    responseRate,
+  } = input;
 
-  if (distance < 1) score += 40;
-  else if (distance < 5) score += 20;
+  // Distance score (closer is better, max 2km)
+  const distanceScore = Math.max(0, (2 - distance) / 2) * 30;
 
-  // profile completeness
-  if (userA.name && userB.name) score += 20;
+  // Age gap score (smaller gap is better, max 5 years)
+  const ageScore = Math.max(0, (5 - ageGap) / 5) * 20;
 
-  // activity boost (placeholder)
-  score += Math.random() * 40;
+  // Common interests score
+  const interestScore = Math.min(commonInterests * 10, 30);
 
-  return Math.min(score, 100);
+  // Response rate score
+  const responseScore = Math.min(responseRate * 20, 20);
+
+  const total = distanceScore + ageScore + interestScore + responseScore;
+
+  return Math.round(Math.min(total, 100));
 }
