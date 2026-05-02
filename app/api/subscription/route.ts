@@ -69,10 +69,3 @@ export async function GET(req: Request) {
     );
   }
 }
-    ],
-    success_url: "http://localhost:3000/success",
-    cancel_url: "http://localhost:3000/cancel",
-  });
-
-  return Response.json({ url: session.url });
-}
