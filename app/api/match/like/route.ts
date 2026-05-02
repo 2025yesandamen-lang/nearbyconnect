@@ -1,7 +1,7 @@
-import { prisma } from "@/lib/prisma";
 import { checkMutualMatch, createMatch } from "@/services/matchService";
 
 export async function POST(req: Request) {
+  const { prisma } = await import("@/lib/prisma");
   const { fromId, toId } = await req.json();
 
   await prisma.like.create({

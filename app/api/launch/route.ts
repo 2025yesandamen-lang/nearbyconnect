@@ -1,6 +1,5 @@
-import { prisma } from "@/lib/prisma";
-
 export async function POST(req: Request) {
+  const { prisma } = await import("@/lib/prisma");
   const { email } = await req.json();
 
   await prisma.waitlist.create({

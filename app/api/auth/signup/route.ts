@@ -1,8 +1,8 @@
-import { prisma } from "@/lib/prisma";
 import bcrypt from "bcrypt";
 
 export async function POST(req: Request) {
   try {
+    const { prisma } = await import("@/lib/prisma");
     const { name, email, password } = await req.json();
 
     const existingUser = await prisma.user.findUnique({

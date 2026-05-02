@@ -1,5 +1,3 @@
-import { prisma } from "@/lib/prisma";
-
 type User = {
   id: string;
   latitude: number | null;
@@ -29,6 +27,7 @@ function getDistanceKm(
 }
 
 export async function GET(req: Request) {
+  const { prisma } = await import("@/lib/prisma");
   const { searchParams } = new URL(req.url);
 
   const lat = Number(searchParams.get("lat"));

@@ -1,9 +1,8 @@
-import { prisma } from "@/lib/prisma";
-
-export const dynamic = "force-dynamic"; // 🔥 VERY IMPORTANT
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
+    const { prisma } = await import("@/lib/prisma");
     const users = await prisma.user.count();
 
     return Response.json({
